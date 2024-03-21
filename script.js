@@ -78,7 +78,7 @@ const locations = [
     name: "fight",
     "button text": ["Attack", "Dodge", "Run"],
     "button functions": [attack, dodge, goTown],
-    text: `You are fighting a monster.`
+    text: "You are fighting a monster."
     }
 ]
 
@@ -109,36 +109,6 @@ function goStore() {
 
 function goCave() {
     updateButtons(locations[2]);
-}
-
-function fightGoblin() {
-    fighting = 0;
-    goFight();
-}
-
-function fightSkeleton() {
-    fighting = 1;
-    goFight();
-}
-
-function fightDragon() {
-    fighting = 2;
-    goFight();
-}
-
-function goFight() {
-    updateButtons(locations[3]);
-    monsterHealthText.innerText = monsters[fighting].health;
-    monsterStats.style.display = "block";
-    monsterName.innerText = monsters[fighting].name;
-}
-
-function attack() {
-
-}
-
-function dodge() {
-
 }
 
 function buyHealth() {
@@ -182,4 +152,53 @@ function sellWeapon() {
     } else {
         text.innerText = "Don't sell your only weapon!";
     }
+}
+
+function fightGoblin() {
+    fighting = 0;
+    goFight();
+}
+
+function fightSkeleton() {
+    fighting = 1;
+    goFight();
+}
+
+function fightDragon() {
+    fighting = 2;
+    goFight();
+}
+
+function goFight() {
+    updateButtons(locations[3]);
+    monsterHealth = monsters[fighting].health;
+    monsterStats.style.display = "block";
+    monsterName.innerText = monsters[fighting].name;
+    monsterHealthText.innerText = monsterHealth;
+}
+
+function attack() {
+    text.innerText = `The ${monsters[fighting].name} attacks.`;
+    text.innerText += ` You attack it with your ${weapons[currentWeapon].name}.`;
+    health -= monsters[fighting].level;
+    healthText.innerText = health;
+    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
+    monsterHealthText.innerText = monsterHealth;
+    if (health <= 0) {
+        lose();
+    } else if (monsterHealth <= 0) {
+        defeatMonster();
+    }
+}   
+
+function dodge() {
+
+}
+
+function lose() {
+
+}
+
+function defeatMonster() {
+    
 }
