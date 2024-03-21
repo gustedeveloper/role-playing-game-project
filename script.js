@@ -39,17 +39,17 @@ const weapons = [
 
 const monsters = [
     {
-        name: "mud goblin",
+        name: "Mud Goblin",
         level: 2,
         health: 15
     },
     {
-        name: "arcane skeleton",
+        name: "Arcane Skeleton",
         level: 8,
         health: 60
     },
     {
-        name: "shadow dragon",
+        name: "Shadow Dragon",
         level: 20,
         health: 300
     }
@@ -73,6 +73,12 @@ const locations = [
     "button text": ["Fight Mud Golem", "Fight Arcane Skeleton", "Go to town square"],
     "button functions": [fightGoblin, fightSkeleton, goTown],
     text: "You enter the cave. You see some monsters."
+    },
+    {
+    name: "fight",
+    "button text": ["Attack", "Dodge", "Run"],
+    "button functions": [attack, dodge, goTown],
+    text: `You are fighting a monster.`
     }
 ]
 
@@ -94,6 +100,7 @@ function updateButtons(location) {
 
 function goTown() {
     updateButtons(locations[0]);
+    monsterStats.style.display = "none";
 }
 
 function goStore() {
@@ -104,15 +111,33 @@ function goCave() {
     updateButtons(locations[2]);
 }
 
-function fightDragon() {
-    console.log("You're going to fight the dragon.");
-}
-
 function fightGoblin() {
-
+    fighting = 0;
+    goFight();
 }
 
 function fightSkeleton() {
+    fighting = 1;
+    goFight();
+}
+
+function fightDragon() {
+    fighting = 2;
+    goFight();
+}
+
+function goFight() {
+    updateButtons(locations[3]);
+    monsterHealthText.innerText = monsters[fighting].health;
+    monsterStats.style.display = "block";
+    monsterName.innerText = monsters[fighting].name;
+}
+
+function attack() {
+
+}
+
+function dodge() {
 
 }
 
@@ -154,5 +179,7 @@ function sellWeapon() {
         let currentWeapon = inventory.shift();
         text.innerText = `You sold a ${currentWeapon}.`;
         text.innerText += ` In your inventory you have: ${inventory}.`;
+    } else {
+        text.innerText = "Don't sell your only weapon!";
     }
 }
