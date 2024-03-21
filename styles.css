@@ -17,8 +17,11 @@ body {
     padding: 10px;
 }
 
-#controls, #stats {
+#stats {
     border: 1px solid #0a0a23;
+}
+
+#controls, #stats {
     padding: 5px;
     color: #0a0a23;
 }
