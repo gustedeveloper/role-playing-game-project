@@ -18,15 +18,34 @@ const monsterName = document.querySelector("#monsterName");
 const monsterHealthText = document.querySelector("#monsterHealth");
 const text = document.querySelector("#text");
 
-
+const weapons = [
+    {
+    name: "stick", 
+    power: 5
+    },
+    { 
+    name: "dagger", 
+    power: 30 
+    },
+    {
+    name: "claw hammer", 
+    power: 50 
+    },
+    { 
+    name: "sword", 
+    power: 100 
+}
+]
 
 const locations = [
-    {name: "town square",
+    {
+    name: "town square",
     "button text": ["Go to store", "Go to cave", "Fight dragon"],
     "button functions": [goStore, goCave, fightDragon],
     text: "You are in the town square. You see a sign that says \"Store\"."
     },
-    {name: "store",
+    {
+    name: "store",
     "button text": ["Buy 10 health (10 gold)", "Buy weapon (30 gold)", "Go to town square"],
     "button functions": [buyHealth, buyWeapon, goTown],
     text: "You enter the store."
