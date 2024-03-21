@@ -38,15 +38,22 @@ button2.onclick = goCave;
 button3.onclick = fightDragon;
 
 function updateButtons(location) {
-
+    button1.innerText = location["button text"][0];
+    button2.innerText = location["button text"][1];
+    button3.innerText = location["button text"][2];
+    button1.onclick = location["button functions"][0];
+    button2.onclick = location["button functions"][1];
+    button3.onclick = location["button functions"][2];
+    text.innerText = location.text;
 }
 
-function goStore() {
-    button1.innerText = "Buy 10 health (10 gold)";
-    button2.innerText = "Buy weapon (30 gold)";
-    button3.innerText = "Go to town square";
-    text.innerText = "You enter the store.";
+function goTown() {
+    updateButtons(locations[0]);
+}
 
+
+function goStore() {
+    updateButtons(locations[1]);
 }
 
 function goCave() {
@@ -58,13 +65,9 @@ function fightDragon() {
 }
 
 function buyHealth() {
-
+    console.log("You bought 10 health.")
 }
 
 function buyWeapon() {
-
-}
-
-function goTown() {
-
+    console.log("You bought a digger.")
 }
