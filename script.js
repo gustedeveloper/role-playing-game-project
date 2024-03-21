@@ -100,7 +100,11 @@ function buyWeapon() {
         gold -= 30;
         currentWeapon++;
         goldText.innerText = gold;
-    } else {
+        inventory.push(weapons[currentWeapon].name);
+        console.log(inventory);
+        text.innerText = "Now you have a " + inventory[currentWeapon] + ".";
+        text.innerText += " In the inventory you have: " + inventory + ".";
+    }   else {
         text.innerText = "You do not have enough gold to buy a weapon.";
     }
 }
