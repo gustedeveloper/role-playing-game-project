@@ -79,6 +79,12 @@ const locations = [
     "button text": ["Attack", "Dodge", "Run"],
     "button functions": [attack, dodge, goTown],
     text: "You are fighting a monster."
+    },
+    {
+    name: "lose",
+    "button text": ["Replay?", "Replay?", "Replay?"],
+    "button functions": [restart, restart, restart],
+    text: "You die, wanna try again? :D"
     }
 ]
 
@@ -89,6 +95,7 @@ button2.onclick = goCave;
 button3.onclick = fightDragon;
 
 function updateButtons(location) {
+    monsterStats.style.display = "none";
     button1.innerText = location["button text"][0];
     button2.innerText = location["button text"][1];
     button3.innerText = location["button text"][2];
@@ -100,7 +107,6 @@ function updateButtons(location) {
 
 function goTown() {
     updateButtons(locations[0]);
-    monsterStats.style.display = "none";
 }
 
 function goStore() {
@@ -181,8 +187,8 @@ function attack() {
     text.innerText = `The ${monsters[fighting].name} attacks.`;
     text.innerText += ` You attack it with your ${weapons[currentWeapon].name}.`;
     health -= monsters[fighting].level;
-    healthText.innerText = health;
     monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
+    healthText.innerText = health;
     monsterHealthText.innerText = monsterHealth;
     if (health <= 0) {
         lose();
@@ -196,9 +202,21 @@ function dodge() {
 }
 
 function lose() {
-
+updateButtons(locations[4]);
 }
 
 function defeatMonster() {
     
+}
+
+function restart() {
+xp = 0;
+health = 100;
+gold = 50;
+currentWeapon = 0;
+inventory = ["stick"];
+xpText.innerText = xp;
+healthText.innerText = health;
+goldText.innerText = gold;
+goTown();
 }
