@@ -90,7 +90,7 @@ const locations = [
     name: "lose",
     "button text": ["Replay?", "Replay?", "Replay?"],
     "button functions": [restart, restart, restart],
-    text: "You die, wanna try again? :D"
+    text: "You die &#x2620;"
     }
 ]
 
@@ -193,12 +193,19 @@ function attack() {
     text.innerText = `The ${monsters[fighting].name} attacks.`;
     text.innerText += ` You attack it with your ${weapons[currentWeapon].name}.`;
     health -= getMonsterAttackValue(monsters[fighting].level);
+    if (isMonsterHit()) {
     monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
+    } else {
+        text.innerText += " You miss.";
+    }
     healthText.innerText = health;
     monsterHealthText.innerText = monsterHealth;
     if (health <= 0) {
         lose();
     } else if (monsterHealth <= 0) {
+        if (fighting === 2) {
+            winGame();
+        }
         defeatMonster();
     }
 }   
@@ -209,6 +216,9 @@ function getMonsterAttackValue(level) {
     return hit > 0 ? hit : 0;
 }
 
+function isMonsterHit() {
+    return Math.random() > .2 || health < 20;
+}
 
 function dodge() {
 
@@ -219,7 +229,11 @@ updateButtons(locations[5]);
 }
 
 function defeatMonster() {
-    
+    gold += Math.floor(monsters[fighting].level * 6.7);
+    xp += monsters[fighting].level;
+    goldText.innerText = gold;
+    xpText.innerText = xp;
+    updateButtons(locations[4]);
 }
 
 function restart() {
