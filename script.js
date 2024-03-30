@@ -4,6 +4,7 @@ let gold = 50;
 let currentWeapon = 0;
 let fighting;
 let dodgeCount = 0;
+let pickCount = 0;
 let monsterHealth;
 let inventory = ["stick"];
 
@@ -103,7 +104,7 @@ const locations = [
     name: "easter egg",
     "button text": ["2", "8", "Go to town square"],
     "button functions": [pickTwo, pickEight, goTown],
-    text: "You find a secret game. Pick a number above. Ten numbers will be randomly chosen between 0 and 10. If the number you choose matches one of the random numbers, you win!"
+    text: "You find a secret game. Pick a number above. Ten numbers will be randomly chosen between 0 and 10. If the number you choose matches one of the random numbers, you win! You have 3 attempts, good luck 😁"
     }
 ]
 
@@ -126,6 +127,7 @@ function updateButtons(location) {
 
 function goTown() {
     updateButtons(locations[0]);
+    pickCount = 0;
 }
 
 function goStore() {
@@ -331,6 +333,8 @@ function pickEight() {
 
 function pick(guess) {
     const numbers = [];
+
+    if (pickCount < 3) {
     while (numbers.length < 10) {
         numbers.push(Math.floor(Math.random() * 11));
     }
@@ -350,4 +354,8 @@ function pick(guess) {
             lose();
         }
     }
+    pickCount++;
+} else {
+    text.innerText = "You have used up all 3 attempts."
+}
 }
