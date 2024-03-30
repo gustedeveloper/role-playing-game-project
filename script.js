@@ -3,6 +3,7 @@ let health = 100;
 let gold = 50;
 let currentWeapon = 0;
 let fighting;
+let dodgeCount = 0;
 let monsterHealth;
 let inventory = ["stick"];
 
@@ -90,13 +91,13 @@ const locations = [
     name: "lose",
     "button text": ["Replay?", "Replay?", "Replay?"],
     "button functions": [restart, restart, restart],
-    text: "You die &#x2620;"
+    text: "You die ☠️"
     },
     {
     name: "win",
     "button text": ["Replay?", "Replay?", "Replay?"],
     "button functions": [restart, restart, restart],
-    text: "You defeat the dragon! YOU WIN THE GAME! &#x1F389;" 
+    text: "You defeat the dragon! YOU WIN THE GAME! 🎉" 
     },
     {
     name: "easter egg",
@@ -238,7 +239,52 @@ function isMonsterHit() {
 }
 
 function dodge() {
+   
+    let evasionBasePercentage = 60;
+    let xpAditionalEvasionPercentage;
+    let totalEvasionPercentage;
 
+if (dodgeCount < 3) {
+
+if (xp > 0) {
+xpAditionalEvasionPercentage = xp;
+} else {
+    xpAditionalEvasionPercentage = 0;
+}
+
+totalEvasionPercentage = evasionBasePercentage + xpAditionalEvasionPercentage;
+
+const evasionPossibility = Math.floor(Math.random() * 101);
+
+if (evasionPossibility < totalEvasionPercentage) {
+text.innerText = "You have dodged the attack of the monster! Your attack increases by 15%.";
+
+const incrementedAttack = Math.floor(weapons[currentWeapon].power * 1.15);
+monsterHealth -= incrementedAttack;
+monsterHealthText.innerText = monsterHealth;
+
+} else {
+text.innerText = "You didn't quite manage to dodge the monster's attack.";
+
+const monsterThreeQuartersDmg = Math.floor(getMonsterAttackValue(monsters[fighting].level) * 0.75);
+health -= monsterThreeQuartersDmg;
+healthText.innerText = health;
+}
+
+dodgeCount++;
+
+if (health <= 0) {
+    lose();
+} else if (monsterHealth <= 0) {
+    if (fighting === 2) {
+        winGame();
+    } else {
+    defeatMonster();
+}
+}
+} else {
+    text.innerText = "You already dodged 3 times";
+}
 }
 
 function defeatMonster() {
@@ -246,6 +292,7 @@ function defeatMonster() {
     xp += monsters[fighting].level;
     goldText.innerText = gold;
     xpText.innerText = xp;
+    dodgeCount = 0;
     updateButtons(locations[4]);
 }
 
@@ -263,6 +310,7 @@ health = 100;
 gold = 50;
 currentWeapon = 0;
 inventory = ["stick"];
+dodgeCount = 0;
 xpText.innerText = xp;
 healthText.innerText = health;
 goldText.innerText = gold;
